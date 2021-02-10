@@ -24,7 +24,7 @@ def riot_api_call():
     for key in form:
         name = form[key]
 
-    api_key = 'RGAPI-a2d1e695-2000-4f49-afff-57606b210cab'
+    api_key = ''
     gamemode = 'CLASSIC'
     region = 'na1'
     watcher = LolWatcher(api_key)
