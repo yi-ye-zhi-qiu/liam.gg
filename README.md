@@ -4,7 +4,7 @@
 
 ![Metis logo](static/images/metis.png) Metis data-science bootcamp project 3, **Jan. 23 - Feb 10 2021**
 
-** [See the final product](http://34.212.100.77/portfolio) ** (*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
+** [See the final product](http://34.212.100.77/league) ** (*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
 ** Project was presented, [slides used](final_presentation.pdf) **
 
 **Summary:**  FlaskApp where users can search by League of Legends username and view baseline match data (like op.gg) that's fetched from the RiotWatcher League of Legends API; in addition, users can click "boost stats" which will reveal a SHAP force plot of features that interpret a XGBoost model trained on 100k rows of Korean pro solo-queue games. XGBoost's hyperparameters were tuned using hyperopt library. Other model approaches (RandomForest tuned via GridSearchCV) were evaluated.
@@ -29,7 +29,7 @@ The data analysis:
 - `riotwatcher`
 - `Flask`
 - `shap`
-- `xgboost`
+- `xgboost` `randomforest`
 - `hyperopt`
 - other modules: `pandas` `scikit-learn` `matplotlib` `seaborn` `numpy` `io` `base64`
 - ~5 hours of time start to finish to run/set-up
