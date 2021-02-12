@@ -102,7 +102,7 @@
             {% set D_df = dfs[a]  %}
             <div class="gamelist">
               <div class="gameitem">
-                <div class="gameitem {{ 'win' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else 'lose' }}">
+                <div class="gameitem {{ 'win' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else 'lose' }}">
                   <div class="content">
                     <div class="gamestats">
                       <div class="gametype">
@@ -405,7 +405,7 @@
                             </div>
                             <div class="graph--container">
                               <div class="graph--losing--team {{ D_df.loc[D_df['summonerName'] == name]['win'].values[0] }} " style="flex: {{ D_df.loc[D_df['summonerName'] == name]['teamTotalKills'].values[0]}} "></div>
-                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }} " style="flex: {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}"></div>
+                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }} " style="flex: {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}"></div>
                             </div>
                             <div class="graph--text graph--data graph--text--right">
                               {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}
@@ -420,7 +420,7 @@
                             </div>
                             <div class="graph--container">
                               <div class="graph--losing--team {{ D_df.loc[D_df['summonerName'] == name]['win'].values[0] }} " style="flex: {{ D_df.loc[D_df['summonerName'] == name]['teamTotalGold'].values[0]}} "></div>
-                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }}" style="flex: {{D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}"></div>
+                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }}" style="flex: {{D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}"></div>
                             </div>
                             <div class="graph--text graph--data graph--text--right">
                               {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}</div>
@@ -461,7 +461,7 @@
                             <col class="shiyi">
                           </colgroup>
                           <!-- set up table header row -->
-                          <thead class="wo {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }} ">
+                          <thead class="wo {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }} ">
                             <tr class="wo-tr">
                               <th class="wo-tr-thead" colspan="4">
                                 <!-- game result of summoner's team-->

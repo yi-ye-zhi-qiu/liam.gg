@@ -50,9 +50,9 @@ class game_info_by_match_id():
                 m_row['teamId'] = row['teamId']
                 win_lose = row['stats']['win']
                 if win_lose == True:
-                    win_lose = '胜利'
+                    win_lose = 'victory'
                 else:
-                    win_lose = '失败'
+                    win_lose = 'defeat'
                 m_row['win'] = win_lose
                 m_row['kills'] = row['stats']['kills']
                 m_row['deaths'] = row['stats']['deaths']
