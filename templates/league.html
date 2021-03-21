@@ -7,7 +7,17 @@
     <title>league_data</title>
   </head>
   <body>
+
     <div class="xx presearch">
+      <div class="release_notes">
+        <a href="{{ url_for('show_index') }}">&#8249; go back</a>
+
+        <i class="BETA"> IN BETA </i><i class="BETA"> Patch 11.4 </i><br>
+
+      </br><span> NA only atm; works best for junglers </br>只有NA，对于打野人最合适（有效）的</span> </br>
+        <span> search by user ID </br>请你搜索一下你英雄联盟的用户名 </span>
+
+      </div>
       <p class="rev-block"><span>你英雄联盟的用户名</span></p>
       <div class="xy">
         <div class="vcmvz" aria-hidden="true">
@@ -23,9 +33,11 @@
           </div>
         </div>
         <form id="riot-api-form" action="{{ url_for('riot_api_call') }}" method="post">
-          <input dataset id="input-box" class="presearch-input" name="presearch-input" type="text">
+          <input dataset placeholder="Doublelift..." id="input-box" class="presearch-input" name="presearch-input" type="text">
         </form>
       </div>
+
+
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

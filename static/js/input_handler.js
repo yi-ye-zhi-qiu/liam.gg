@@ -11,6 +11,7 @@ const form = $("#riot-api-form");
            return true;
 });
 
+//button
 $('.button--bubble').each(function() {
   var $circlesTopLeft = $(this).parent().find('.circle.top-left');
   var $circlesBottomRight = $(this).parent().find('.circle.bottom-right');
@@ -58,8 +59,8 @@ $('.button--bubble').each(function() {
   });
 });
 
+//Parallax
 window.addEventListener('scroll', scrollFunc);
-
 function scrollFunc() {
     var windowScroll = this.scrollY;
 
@@ -71,64 +72,99 @@ function scrollFunc() {
 
     var $foreBird = document.getElementsByClassName('fore-bird')[0];
     $foreBird.style.transform = 'translateY(-' + windowScroll/100 + '%)';
-
 }
 
 
-function fade_out(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op >= 0.05){
-            clearInterval(timer);
-            element.style.display = 'none';
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op -= op * 0.1;
-    }, 50);
-    element.dataset.state ='faded_out'
-}
-
-function fade_in(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op >= 0.1){
-            clearInterval(timer);
-            element.style.display = 'block';
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op -= op * 0.1;
-    }, 50);
-    element.dataset.state ='faded_in'
-}
-
+//Game details
 var show_deets = document.querySelectorAll('.game_deets')
 var btn = document.querySelectorAll('.content')
+
 for (let i = 0; i < btn.length; i++) {
     btn[i].addEventListener("click", function() {
-      if(show_deets[i].dataset.state==='faded_out'){ fade_in(show_deets[i])}
-      else{fade_out(show_deets[i])}
+      if(show_deets[i].dataset.state !== 'faded_in'){
+            show_deets[i].style.opacity="0.1";
+            unfade(show_deets[i]);
+      }
+      else {
+            show_deets[i].style.opacity="0.1";
+            fade(show_deets[i]);
+      }
     });
 }
 
-
-var stats = document.querySelector('#xgboost_reveal')
-var stats_underneath = document.querySelectorAll('.xgboost_result')
-
-stats.addEventListener('click', function() {
-  stats_underneath.forEach(e => {
-    if(e.classList.contains('is-hidden')){
-      e.style.display = 'block'
-      e.classList.remove('is-hidden')
-    } else {
-      e.style.display = 'none'
-      e.classList.add('is-hidden')
+function unfade(element) {
+    var op = 0.1;  // initial opacity
+    element.style.display = 'block';
+    var timer = setInterval(function () {
+        if (op >= 1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op += op * 0.1;
+    }, 30);
+    element.dataset.state = 'faded_in';
+}
+function fade(element){
+  var op = element.style.opacity;
+  var timer = setInterval(function () {
+    if (op >= 0){
+      clearInterval(timer);
     }
-  })
-})
+    op -= op * 0.1;
+    element.style.opacity = op;
+    element.style.filer = 'alpha(opacity=' + op * 100 + ")";
+  }, 30);
+  element.dataset.state = 'faded_out';
+  element.style.display = 'none';
+}
 
 
+//SHAP Plot
+
+let show_on_click = (controller_id, display) => {
+  try{
+    controller_id.addEventListener('click', function() {
+      display.forEach(e => {
+        if(e.classList.contains('is-hidden')){
+          e.style.display = 'block'
+          e.classList.remove('is-hidden')
+        } else {
+          e.style.display = 'none'
+          e.classList.add('is-hidden')
+        }
+      })
+    })
+  }
+  catch(err){
+    controller_id.forEach(e => {
+      e.addEventListener('click', function(){
+        display.forEach(e => {
+          if(e.classList.contains('is-hidden')){
+            e.style.display = 'block'
+            e.classList.remove('is-hidden')
+          } else {
+            e.style.display = 'none'
+            e.classList.add('is-hidden')
+          }
+        })
+      })
+    })
+  }
+}
+
+var shapplot_controller = document.querySelector('#SHAPplot_controller')
+var shapplots = document.querySelectorAll('.logistic_reg')
+
+show_on_click(shapplot_controller, shapplots)
+
+var shap_plot_explanation_controller = document.querySelectorAll('.shap_plot_explanation')
+var explanations = document.querySelectorAll('.explain_model')
+
+show_on_click(shap_plot_explanation_controller, explanations)
+
+
+//Color based off rank
 let color_selector = () => {
 
   var border = document.querySelector('.bird-box'),
