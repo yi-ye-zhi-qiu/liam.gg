@@ -1,0 +1,30 @@
+
+body {
+  font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: calc(30px + 0.33vw);
+  -webkit-font-smoothing: antialiased;
+  color: #121314;
+  overflow: visible;
+  box-sizing: border-box;
+  line-height: 1.4286;
+  left: 50%;
+}
+
+.BETA{
+  font-style: normal;
+  font-size: 12px;
+  background-color: magenta;
+  color: white;
+  border-radius: 4px;
+  padding: 0.25em 0.5em;
+}
+.BETA:nth-child(1){
+  background-color: black !important;
+  margin-left: 8px;
+}
+.release_notes{
+  margin-left: -100px;
+  width: 395px;
+  font-size: 14px;
+  background-color: #fefefe;
+}

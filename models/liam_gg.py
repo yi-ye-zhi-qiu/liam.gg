@@ -5,7 +5,95 @@ import pprint
 from datetime import datetime
 
 
-# Fetching game data
+
+#Fetching static game history -- 1000 games for every division.
+#Runtime: ???
+
+class game_history_by_league():
+
+    def __init__(self, api_key, region):
+        #upon calling the class we pass in a bunch of things to initialize^
+        self.api_key = api_key
+        self.region = region
+
+    def get_summoners_for_each_division_tier(self):
+        """
+        Returns 1025 names from each ranked league in League of Legends.
+        """
+        watcher = LolWatcher(self.api_key, timeout=1)
+
+        #ranked_leagues = ['CHALLENGER', 'GRANDMASTER', 'DIAMOND', 'PLATINUM', 'GOLD', 'SILVER', 'IRON']
+        ranked_leagues = ['DIAMOND']
+        #divisions = ['I', 'II', 'III', 'IV']
+        divisions = ['I', 'II']
+        solo5v5 = 'RANKED_SOLO_5x5'
+        ranked_games_by_tier_by_division = {} # we will dump the JSON object returned by the API request into this dictionary
+
+        for i in ranked_leagues:
+            for j in divisions:
+                #returns 1025 summoner IDs by tier by division, i.e. DIAMOND I, DIAMOND II etc.
+                #first define key-value pair in dictionary (considered default dict but it's too specific)
+                ranked_games_by_tier_by_division[i+' '+j] = watcher.league.entries(division=j, tier=i, queue=solo5v5, region=self.region, page=1)
+                for k in range(2, 6):
+                    #add onto key-value pair more games per division, it is only 205 with one page,
+                    #so if we loop through this many pages we get 1025 games
+                    ranked_games_by_tier_by_division[i+' '+j] += watcher.league.entries(division=j, tier=i, queue=solo5v5, region=self.region, page=k)
+        return ranked_games_by_tier_by_division
+
+
+    def seed_accounts_by_league(self):
+        """
+        Returns a list of accounts by league, i.e. 1000 people in Iron 5, 1000 people in Gold 3 etc.
+        This is just cleaning the dictionary defined in the above function, get_summoners_for_each_division_tier.
+
+        The dictionary for each summoner has some un-needed info. All we want is the account name (summoner name)
+        and associated ID (leagueId).
+        """
+
+        #do this shit later
+
+    def read_account_game_ids_by_league(self):
+        """
+        API reference: MatchApiv4 endpoint.
+        Reads match history (n=1, the last game played) for each summoner name in the lists made above for just game IDs.
+
+        Go from ranked_games_by_tier_by_division --> game_ids_by_tier_by_division.
+
+        """
+        watcher = LolWatcher(self.api_key)
+
+        ranked_games_by_tier_by_division = game_history_by_league(self.api_key, self.region).get_summoners_for_each_division_tier()
+        df = pd.DataFrame(ranked_games_by_tier_by_division)
+        for i, row in df_rg.iterrows():
+            try:
+                accountId = watcher.summoner.by_name(self.region, df['summonerName'].values[i])['accountId']
+                games = watcher.match.matchlist_by_account(self.region, accountId)['matches']
+                gameId = '%.0f' %[games[x]['gameId'] for x in range(0, len(games)) if games[x]['queue']==420][0]
+                df.loc[i, 'gameId'] = gameId
+                time.sleep(0.5)
+            except:
+                df_rg.loc[i, 'gameId'] = ''
+
+    def read_account_games_by_league(self):
+        """
+        API reference: MatchApi v4 endpoint.
+
+        Reads the actual game data from the match history for each division by summoner.
+        There are 1000 summoners in Iron5, with 1000 game IDs referring to their most recent game,
+        and we will read in data for the last game played of each one of them.
+
+        What do we read in? Check out example png: ___, there are about 50 columns per match.
+
+        Note to Liam for later: include team_dragons_taken and stuff like that. Objective control is important.
+        """
+
+        game_info_by_match_id()
+
+
+
+
+# Fetching live game data (sample=n parameter specified in app.py)
+# Run-time 1-5s.
 
 class game_info_by_match_id():
     """
@@ -50,9 +138,9 @@ class game_info_by_match_id():
                 m_row['teamId'] = row['teamId']
                 win_lose = row['stats']['win']
                 if win_lose == True:
-                    win_lose = '胜利'
+                    win_lose = 'victory'
                 else:
-                    win_lose = '失败'
+                    win_lose = 'defeat'
                 m_row['win'] = win_lose
                 m_row['kills'] = row['stats']['kills']
                 m_row['deaths'] = row['stats']['deaths']
@@ -109,11 +197,19 @@ class game_info_by_match_id():
                 m_row['magicDamageDealt'] = row['stats']['magicDamageDealt']
                 m_row['goldSpent'] = row['stats']['goldSpent']
                 m_row['neutralMinionsKilled'] = row['stats']['neutralMinionsKilled']
-                m_row['neutralMinionsKilledTeamJungle'] = row['stats']['neutralMinionsKilledTeamJungle']
-                m_row['neutralMinionsKilledEnemyJungle'] = row['stats']['neutralMinionsKilledEnemyJungle']
+                #Account for ARAM games
+                try:
+                    m_row['neutralMinionsKilledTeamJungle'] = row['stats']['neutralMinionsKilledTeamJungle']
+                    m_row['neutralMinionsKilledEnemyJungle'] = row['stats']['neutralMinionsKilledEnemyJungle']
+                    m_row['wardsPlaced'] = row['stats']['wardsPlaced']
+                    m_row['wardsKilled'] = row['stats']['wardsKilled']
+                except:
+                    m_row['neutralMinionsKilledTeamJungle'] = ''
+                    m_row['neutralMinionsKilledEnemyJungle'] = ''
+                    m_row['wardsPlaced'] = ''
+                    m_row['wardsKilled'] = ''
                 m_row['totalTimeCrowdControlDealt'] = row['stats']['totalTimeCrowdControlDealt']
-                m_row['wardsPlaced'] = row['stats']['wardsPlaced']
-                m_row['wardsKilled'] = row['stats']['wardsKilled']
+
                 n.append(m_row)
             return n
 
