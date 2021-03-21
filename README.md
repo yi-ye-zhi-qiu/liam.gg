@@ -32,8 +32,7 @@ Requirements to run locally:
 
 The data:
 
-- Please email liamnisaacs@gmail.com for the dataset as it is too large to upload to Github. I am working on uploading to Kaggle!
-- You can also run `data_generation.ipynb` but this will take ~1 week.
+- Here's a link to [my Kaggle dataset](https://www.kaggle.com/liamisaacs/leagueoflegends-ranked-na-soloq-data-patch-114)
 
 ----
 
