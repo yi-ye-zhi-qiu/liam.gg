@@ -22,6 +22,8 @@ def get_info(name, df, ranked_info):
     try:
         rank = ranked_info['tier'].values[0] + ranked_info['rank'].values[0]
     except:
+        #Default to SILVERI if rank is unknown
+        #TO-DO: add user option to pre-select a rank they'd like to see data for
         rank = 'SILVERI'
     print(colors.CWHITEBG + colors.CBLACK + 'Querying ', rank, '...')
     spells = [df.loc[df['summonerName'] == name]['spell1'].values[0],df.loc[df['summonerName'] == name]['spell2'].values[0]]
@@ -46,7 +48,7 @@ def create_window(rank):
         try:
             window = [z[index-1],z[index],z[index+1]]
         except IndexError:
-            window = [z[index]]
+            window = [z[index-2], z[index-1], z[index]]
     return window
 
 #Create df from window
@@ -91,8 +93,10 @@ def filter_window(window_df, champ, spells):
 
         #print('Shape is',df_filtered_by_champName.shape[0],'rows long')
         return df_filtered_by_champName, count_needed
+
+
     else:
-        print(colors.CREDBG + '[WARNING] Data inadequate (continuing..)')
+        print(colors.CREDBG + '[WARNING] Data-size possibly inadequate, model might overfit or will not run (continuing..)')
         count_needed =df_filtered_by_champName.shape[0]
         return df_filtered_by_champName, count_needed
 
@@ -179,14 +183,14 @@ def generate_model(f_df, primary_key, window, how_many_games_added):
         "totalHeal": "Total healing",
         "totalUnitsHealed": "Total units healed",
         "damageDealtToObjectives": "Damage to objectives",
-        "totalTimeCrowdControlDealt": "Time spent with crown control per min.",
+        "totalTimeCrowdControlDealt": "Time spent crowd control",
         "goldSpent": "Gold spent",
         "totalMinionsKilled": "Total minions killed",
         "neutralMinionsKilled": "CS score",
         "neutralMinionsKilledTeamJungle": "Own jungle kills (# of camps)",
         "neutralMinionsKilledEnemyJungle": "Enemy jungle kills (# of camps)",
         "totalTimeCrowdControlDealt": "Time CCed enemies",
-        "visionWardsBoughtInGame": "Pink wards bought per min.",
+        "visionWardsBoughtInGame": "# of pink wards bought",
         "wardsPlaced": "Wards placed",
         "wardsKilled": "Wards killed",
         "turretKills": "# of turret kills",
