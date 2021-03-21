@@ -115,7 +115,10 @@ def riot_api_call():
             ind = list(ind)[0]
             force_plot = shap.plots.force(shap_values[ind], matplotlib=False)
             shap_html = f"<head>{shap.getjs()}</head><body>{force_plot.html()}</body>"
-            below_shap_html = '<button class="shap_plot_explanation"> What is this? </button><div class="explain_model is-hidden"><p>Analysis is of '+str(300-how_many_games_added)+' games as '+champ+' padded with ' + str(how_many_games_added) +' other games (if jungle => of junglers else nothing is padded) in divisions '+str(window)+'. The number on top of the graph represents: how likely or unlikely was this game to happen at all, given our data model?</p><p>Data is based off your past game data combined with anyone within 2 divisions of your rank (last updated patch 11.4), and 20-30% of sample data is just for that champion.</p><p>The <span style="background-color: rgb(255, 13, 87); color: white;">red bars</span> and their relative sizes indicate which things about this game DID help your log-odds chances of winning this game and by how much, and the <span style="background-color: rgb(30, 136, 229); color: white;">blue bars</span> are what aspects DID NOT help your log-odds chances and by how much.</p></div>'
+            if count_given ==1:
+                below_shap_html = '<button class="shap_plot_explanation"> What is this? </button><div class="explain_model is-hidden"><p>Analysis is of '+str(300-how_many_games_added)+' games as '+champ+' padded with ' + str(how_many_games_added) +' other games (if jungle => of junglers else nothing is padded) in divisions '+str(window)+'. The number on top of the graph represents: how likely or unlikely was this game to happen at all, given our data model?</p><p>Data is based off your past game data combined with anyone within 2 divisions of your rank (last updated patch 11.4), and 20-30% of sample data is just for that champion.</p><p>The <span style="background-color: rgb(255, 13, 87); color: white;">red bars</span> and their relative sizes indicate which things about this game DID help your log-odds chances of winning this game and by how much, and the <span style="background-color: rgb(30, 136, 229); color: white;">blue bars</span> are what aspects DID NOT help your log-odds chances and by how much.</p></div>'
+            elif count_given ==0:
+                below_shap_html = '<button class="shap_plot_explanation"> What is this? </button><div class="explain_model is-hidden"><p>Analysis is of '+str(how_many_games_added)+' games as '+champ+' padded with ' + str(0) +' other games (if jungle => of junglers else nothing is padded) in divisions '+str(window)+'. The number on top of the graph represents: how likely or unlikely was this game to happen at all, given our data model?</p><p>Data is based off your past game data combined with anyone within 2 divisions of your rank (last updated patch 11.4), and 20-30% of sample data is just for that champion.</p><p>The <span style="background-color: rgb(255, 13, 87); color: white;">red bars</span> and their relative sizes indicate which things about this game DID help your log-odds chances of winning this game and by how much, and the <span style="background-color: rgb(30, 136, 229); color: white;">blue bars</span> are what aspects DID NOT help your log-odds chances and by how much.</p></div>'
             show_below_plot = 1
             return shap_html, below_shap_html, show_below_plot
         except:
@@ -131,7 +134,7 @@ def riot_api_call():
         champ = a.loc[a['summonerName'] == name]['championName'].values[0]
         primary_key = a.loc[a['summonerName'] == name]['longestTimeSpentLiving'].values[0]
 
-        model, Xt, Xv, X_, index_label, num_games, window, how_many_games_added = give_shap_plot(name, dfs[b], ranked_info, df_index, dfs, champ, primary_key)
+        model, Xt, Xv, X_, index_label, num_games, window, how_many_games_added, count_given = give_shap_plot(name, dfs[b], ranked_info, df_index, dfs, champ, primary_key)
         #If you're running XGBoost, RandomForest:
         #explainer = shap.TreeExplainer(model)
         #shap_values = explainer.shap_values(Xv)
@@ -149,6 +152,7 @@ def riot_api_call():
                                                   below_shap_html = below_shap_html,
                                                   show_below_plot = show_below_plot,
                                                   name=name)
+
 
 if __name__ == '__main__':
     app.run()

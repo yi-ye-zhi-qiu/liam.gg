@@ -13,8 +13,8 @@ def give_shap_plot(name, df, ranked_info, df_index, dfs, champ, primary_key):
     window_df = make_df(window, rank)
     padded_df = pad_window(window_df, dfs)
     padded_df_no_arams = remove_arams(padded_df)
-    f_df, how_many_games_added = filter_window(padded_df_no_arams, champ, spells)
-    model = generate_model(f_df, primary_key, window, how_many_games_added)
+    f_df, how_many_games_added, count_given = filter_window(padded_df_no_arams, champ, spells)
+    model = generate_model(f_df, primary_key, window, how_many_games_added, count_given)
     return model
 
 def get_info(name, df, ranked_info):
@@ -90,17 +90,18 @@ def filter_window(window_df, champ, spells):
         count_needed = 300-df_filtered_by_champName.shape[0]
         print(colors.CWHITEBG + colors.CBLACK + 'JUNGLE confirmed, padding with ',count_needed, 'other Jungler games within ranked window')
         df_filtered_by_champName = df_filtered_by_champName.append(df_filtered_by_jungler[0:count_needed])
-
+        count_given =1
         #print('Shape is',df_filtered_by_champName.shape[0],'rows long')
-        return df_filtered_by_champName, count_needed
+        return df_filtered_by_champName, count_needed, count_given
 
 
     else:
         print(colors.CREDBG + '[WARNING] Data-size possibly inadequate, model might overfit or will not run (continuing..)')
         count_needed =df_filtered_by_champName.shape[0]
-        return df_filtered_by_champName, count_needed
+        count_given =0
+        return df_filtered_by_champName, count_needed, count_given
 
-def generate_model(f_df, primary_key, window, how_many_games_added):
+def generate_model(f_df, primary_key, window, how_many_games_added, count_given):
 
     print(colors.CWHITEBG+ colors.CBLACK + 'You are analyzing '+str(f_df.shape[0])+' games...')
     num_games = str(f_df.shape[0])
@@ -314,4 +315,4 @@ def generate_model(f_df, primary_key, window, how_many_games_added):
     print(colors.CWHITEBG + colors.CBLACK + '[ECHO] Index used correspondent to primary key is ', str(index_label))
 
     print(colors.CGREENBG + colors.CBLACK + 'Model passed to app.py for SHAP graph')
-    return model, Xt, Xv, X_, index_label, num_games, window, how_many_games_added
+    return model, Xt, Xv, X_, index_label, num_games, window, how_many_games_added, count_given
