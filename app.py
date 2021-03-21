@@ -54,7 +54,7 @@ def riot_api_call():
         name = form[key]
 
     #Define requisite variables for riot api call
-    api_key = 'RGAPI-f6ddf399-cf80-4c09-9a56-252021978eab' #get one @ https://developer.riotgames.com/
+    api_key = '' #get one @ https://developer.riotgames.com/
     region = 'na1' #this is only functional right now for North American data (LoL has European, Chinese, etc. servers)
     watcher = LolWatcher(api_key)
     #Define the user using python wrapper RiotWatcher for League of Legends data
