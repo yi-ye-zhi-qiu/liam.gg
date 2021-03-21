@@ -1,6 +1,6 @@
 ## liam.gg ![Python version](https://img.shields.io/badge/python-%E2%89%A53.6-blue.svg?style=flat-square&logo=python&logoColor=white)
 
-### League of Legends (LoL) win interpreter with the aim of connecting LoL players with their data using XGBoost classifier
+### League of Legends (LoL) win interpreter WebApp with the aim of connecting LoL players with their data using logistic regression
 
 ![Metis logo](static/images/metis.png) Metis data-science bootcamp project 3, **Jan. 23 - Feb 10 2021**
 
