@@ -3,7 +3,6 @@ body {
   font-size: calc(20px + 0.33vw);
   -webkit-font-smoothing: antialiased;
   color: #121314;
-  overflow-x: hidden;
   box-sizing: border-box;
   overflow: visible;
   display: block;
@@ -32,13 +31,43 @@ input {
   border: none;
   spellcheck: false;
 }
-/* span {
-  padding:.25em .5em .3125em;
-  color:var(--placeholder-color);
-  transition:all .100s;
+iframe{
+  height: 200px;
+  width: 2000px;
   border: none;
-} */
+}
+.logistic_reg button{
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: none;
+  position: absolute;
+  left: 50%;
+  margin-left: -40px;
 
+  margin-top: -100px;
+}
+.logistic_reg p{
+  font-family: "Lucida Sans Typewriter","Lucida Console",Monaco,"Bitstream Vera Sans Mono",monospace;
+  position: relative;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: normal;
+  text-align: left;
+  width: 800px !important;
+  margin-left: -400px;
+  left: 50%;
+  margin-top: 10px;
+}
+
+.logistic_reg button:hover{
+  background-color: #121314;
+  color: white;
+}
+.explain_model{
+  margin-top: -85px;
+}
 
 .presearch{
   height: 100vh !important;
@@ -460,7 +489,7 @@ p{
     font-weight: bold;
 }
 .gameitem>.content>.gamesettinginfo {
-    width: 100px;
+    width: 102px;
     font-size: 0;
 }
 .gameitem>.content>.gamesettinginfo>.championimage {
@@ -498,11 +527,29 @@ p{
     width: 100%;
     height: 100%;
 }
+.gameitem>.content>.gamesettinginfo>.runes {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+.gameitem>.content>.gamesettinginfo>.runes>.rune {
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.gameitem>.content>.gamesettinginfo>.runes>.rune>.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .gameitem>.content>.gamesettinginfo>.championname {
     margin-top: 8px;
     font-size: 11px;
     color: #555;
-    text-align: center;
+    margin-left: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -553,8 +600,8 @@ p{
 }
 .gameitem>.content>.KDA>.badge>.MVP {
     border-radius: 9px;
-    background-color: #e19205;
-    border: solid 1px #b88a2a;
+    background-color: #121314;
+    color: white;
 }
 .gameitem>.content>.KDA>.KDAratio>.KDAratio{
   padding:.25em .5em .3125em;
@@ -744,6 +791,8 @@ p{
   margin-top: -25px;
 }
 .game_deets{
+  display: none;
+  opacity: 0;
   background: #e89d99;
 }
 .is-hidden {
@@ -754,7 +803,7 @@ p{
   border-top: none;
 }
 .game_deets_table{
-  width: 100%;
+  width: 850px;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -800,11 +849,17 @@ tr:hover{
   text-align: left;
   color: blue;
 }
+.wo-tr-thead:first-child{
+  text-align: left;
+  padding-left: 15px;
+  font-weight: 500;
+}
 .wo-tr-thead{
   height: 32px;
   color: #121314;
   font-size: 12px;
   font-weight: normal;
+  text-align: center;
 }
 .ni{
   background-color: #fff;
@@ -845,6 +900,14 @@ tr:hover{
   width: 16px;
   height: 16px;
   border-radius: 2px;
+}
+
+.ni-rune-image{
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: #121314;
 }
 
 .ni-summoner-name{
@@ -957,11 +1020,9 @@ tr:hover{
 
 .yi-qi-fen-kai{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-left: 1px solid #121314;
-  border-right: 1px solid #121314;
-  background-color: #f3f3f3;
+  justify-content: center;
+  background-color: white;
+  padding-bottom: 8px;
 }
 .yi-qi-fen-kai-team:first-child{
   padding-right: 0;
@@ -1033,9 +1094,4 @@ tr:hover{
   margin-left: 4px;
   flex: 1;
   height: 10px;
-}
-
-.xgboost_image{
-  height: 200px;
-  width: 800px;
 }

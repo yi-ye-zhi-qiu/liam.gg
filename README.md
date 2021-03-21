@@ -1,13 +1,16 @@
-## lieum.gg ![Python version](https://img.shields.io/badge/python-%E2%89%A53.6-blue.svg?style=flat-square&logo=python&logoColor=white)
+## liam.gg ![Python version](https://img.shields.io/badge/python-%E2%89%A53.6-blue.svg?style=flat-square&logo=python&logoColor=white)
 
 ### League of Legends (LoL) win interpreter with the aim of connecting LoL players with their data using XGBoost classifier
 
 ![Metis logo](static/images/metis.png) Metis data-science bootcamp project 3, **Jan. 23 - Feb 10 2021**
 
-** [See the final product](http://34.212.100.77/league) ** (*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
-** Project was presented, [slides used](final_presentation.pdf) **
+[See the final product](http://liamisaacs.com/league)
 
-**Summary:**  FlaskApp where users can search by League of Legends username and view baseline match data (like op.gg) that's fetched from the RiotWatcher League of Legends API; in addition, users can click "boost stats" which will reveal a SHAP force plot of features that interpret a XGBoost model trained on 100k rows of Korean pro solo-queue games. XGBoost's hyperparameters were tuned using hyperopt library. Other model approaches (RandomForest tuned via GridSearchCV) were evaluated.
+(*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
+
+Project was presented, [slides!](final_presentation.pdf)
+
+**Summary:**  FlaskApp where users can search by League of Legends username and view baseline match data (like op.gg) that's fetched from the RiotWatcher League of Legends API; in addition, users can click "boost stats" which will reveal a SHAP force plot of features that interpret a logistic regression model trained on data that's local to that user (based off rank, champion, role).
 
 ----
 
@@ -17,38 +20,45 @@ Contributors:
 ----
 
 Requirements to run locally:
-
-The data:
-
-- [Link to Kaggle dataset](https://www.kaggle.com/gyejr95/league-of-legendslol-ranked-games-2020-ver1), ~100k rows of Korean solo-queue League games from patches 10.3 or so.
-
-The data analysis:
-
 - `Python 3.6` or greater
 - `jupyter notebook`
-- `riotwatcher`
+- `RiotWatcher` `Riot APIs`
 - `Flask`
 - `shap`
-- `xgboost` `randomforest`
-- `hyperopt`
-- other modules: `pandas` `scikit-learn` `matplotlib` `seaborn` `numpy` `io` `base64`
-- ~5 hours of time start to finish to run/set-up
-
-The WebApp:
-
-- The FlaskApp is running on Ubuntu on an AWS AmazonLightsail server, but you can easily reproduce on local host by running `Flask run app.py`
+- `logistic regression`
+- other modules: `pandas` `scikit-learn` `numpy`
 
 ----
 
-Project Map   
+The data:
 
-This project is split into data modeling from our dataset and live API calls to Riot Games servers each time you search a league name. This is reflected in our final product as the op.gg-like baseline data, and the SHAP force plots below: that's two separate functions.
+- Please email liamnisaacs@gmail.com for the dataset as it is too large to upload to Github. I am working on uploading to Kaggle!
+- You can also run `data_generation.ipynb` but this will take ~1 week.
 
-Data modeling from dataset:
+----
 
-- Documented in `analysis.ipynb`,
-- Defined in `liam_gg_ml.py`, called by `app.py`
+The process:
 
-Data collection from API call:
+- The basic idea is a Flask form submission of the user name in `templates/league.html`
+- Using that name, in `app.py` we:
+```
+- Check user rank (Gold I, etc.)
+- Check basic information (like rank and champion name, and CC Score)
+- Pass rank and champion name to liam_gg_ml.py
+- Construct dataframe by padding that user game with games from two tiers above and below current division Gold II, Gold III, Plat IV, and Plat III
+*(NOTE: for Challenger players, this would only be from Master, Diamond I)*
+- Filter by champion (i.e. Nocturne)
+- Filter by jungler or not (has smite or not) -- if so, add in 100 other Jungler games
+*(NOTE: If it's not jungle there is currently a major issue where data will be insufficient)*
+- Run a train/test split and logistic regression model (hyperparameters are not going to be tuned at all)
+- Use longest time living as % of the game as a primary key to search our model to find the game we want to make a SHAP plot for
+*(ASSUMPTION: Longest time spent living is such a unique number that you will not get multiple/duplicates in a dataframe the size of around 300 rows)*
+- Pass the model back to app.py, along with an index value that's for that specific game
+- Run a _force_plot_html function to generate a SHAP force plot for that specific game (displayed when user clicks 'BOOST STATS')
+```
 
-- `liam_gg.py`, called by `app.py`, search for username made in `templates/league.html` and data displayed in `templates/public/liam.gg.html`
+----
+
+The WebApp itself:
+
+- The FlaskApp is running on Ubuntu on an AWS AmazonLightsail server (more on that in my [personalwebsite repository](https://github.com/yi-ye-zhi-qiu/personalwebsite)), but you can easily reproduce on local host by running `Flask run app.py` or, if you use Atom IDE, `Command+i` in the `app.py` file

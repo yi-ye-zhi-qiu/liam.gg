@@ -1,9 +1,9 @@
 <html lang="en" dir="ltr">
   <head>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/league_style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <meta charset="utf-8">
-    <title>league_data</title>
+    <script src="{{url_for('static', filename='js/shapinit.js')}}"></script>
+    <title>Lieum.gg</title>
   </head>
   <body>
     <header class="bird-box">
@@ -79,7 +79,7 @@
         </svg>
 
         <span class="button--bubble__container">
-          <a id="xgboost_reveal" class="button button--bubble">
+          <a id="SHAPplot_controller" class="button button--bubble">
             Boost my stats
           </a>
           <span class="button--bubble__effect-container">
@@ -102,7 +102,7 @@
             {% set D_df = dfs[a]  %}
             <div class="gamelist">
               <div class="gameitem">
-                <div class="gameitem {{ 'win' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else 'lose' }}">
+                <div class="gameitem {{ 'win' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else 'lose' }}">
                   <div class="content">
                     <div class="gamestats">
                       <div class="gametype">
@@ -133,6 +133,15 @@
                         </div>
                         <div class="spell">
                           <img class="image" src="{{ D_df.loc[D_df['summonerName'] == name]['spell2Image'].values[0] }}" alt="">
+                        </div>
+                      </div>
+                      <div class="runes">
+                        <div class="rune">
+                          <!--url_for('static',filename='images/love_petrarch.png'-->
+                          <img class="image" src="{{ D_df.loc[D_df['summonerName'] == name]['rune1Image'].values[0] }}" alt="">
+                        </div>
+                        <div class="rune">
+                          <img class="image" src="{{ D_df.loc[D_df['summonerName'] == name]['rune2Image'].values[0] }}" alt="">
                         </div>
                       </div>
                       <div class="championname">
@@ -225,7 +234,7 @@
                   </div>
 
                   <!-- collapsable game details -->
-                  <div class="game_deets is-hidden">
+                  <div class="game_deets">
                     <div class="game_deets_content">
                       <table class="game_deets_table">
                         <!-- set up the width of our columns -->
@@ -253,22 +262,22 @@
                               Tier
                             </th>
                             <th class="wo-tr-thead">
-                              lr score
+                              1-10
                             </th>
                             <th class="wo-tr-thead">
                               KDA
                             </th>
                             <th class="wo-tr-thead">
-                              dmg to champions
+                              英雄伤害
                             </th>
                             <th class="wo-tr-thead">
-                              wards
+                              眼
                             </th>
                             <th class="wo-tr-thead">
                               CS
                             </th>
                             <th class="wo-tr-thead">
-                              items
+                              装备
                             </th>
                           </tr>
                         </thead>
@@ -296,12 +305,14 @@
                               </div>
                             </td>
                             <td class="ni-cell ni-runes">
+                              <img class="ni-rune-image" src="{{ D_df.loc[i]['rune1Image'] }}" alt="">
+                              <img class="ni-rune-image" src="{{ D_df.loc[i]['rune2Image'] }}" alt="">
                             </td>
                             <td class="ni-cell ni-summoner-name">
                               {{ D_df.loc[i]['summonerName'] }}
                             </td>
                             <td class="ni-cell ni-rank">
-                              placeholder
+                              no judge
                             </td>
                             <td class="ni-cell ni-lr-score">
                               <div class="ni-lr-score-text">
@@ -405,7 +416,7 @@
                             </div>
                             <div class="graph--container">
                               <div class="graph--losing--team {{ D_df.loc[D_df['summonerName'] == name]['win'].values[0] }} " style="flex: {{ D_df.loc[D_df['summonerName'] == name]['teamTotalKills'].values[0]}} "></div>
-                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }} " style="flex: {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}"></div>
+                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }} " style="flex: {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}"></div>
                             </div>
                             <div class="graph--text graph--data graph--text--right">
                               {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalKills'].values[0] }}
@@ -420,7 +431,7 @@
                             </div>
                             <div class="graph--container">
                               <div class="graph--losing--team {{ D_df.loc[D_df['summonerName'] == name]['win'].values[0] }} " style="flex: {{ D_df.loc[D_df['summonerName'] == name]['teamTotalGold'].values[0]}} "></div>
-                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }}" style="flex: {{D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}"></div>
+                              <div class="winningteam {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }}" style="flex: {{D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}"></div>
                             </div>
                             <div class="graph--text graph--data graph--text--right">
                               {{ D_df.loc[D_df['teamId'] != D_df.loc[D_df['summonerName'] == name]['teamId'].values[0]]['teamTotalGold'].values[0] }}</div>
@@ -461,7 +472,7 @@
                             <col class="shiyi">
                           </colgroup>
                           <!-- set up table header row -->
-                          <thead class="wo {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == 'victory' else '胜利' }} ">
+                          <thead class="wo {{ '失败' if D_df.loc[D_df['summonerName'] == name]['win'].values[0] == '胜利' else '胜利' }} ">
                             <tr class="wo-tr">
                               <th class="wo-tr-thead" colspan="4">
                                 <!-- game result of summoner's team-->
@@ -513,12 +524,14 @@
                                 </div>
                               </td>
                               <td class="ni-cell ni-runes">
+                                <img class="ni-rune-image" src="{{ D_df.loc[i]['rune1Image'] }}" alt="">
+                                <img class="ni-rune-image" src="{{ D_df.loc[i]['rune2Image'] }}" alt="">
                               </td>
                               <td class="ni-cell ni-summoner-name">
                                 {{ D_df.loc[i]['summonerName'] }}
                               </td>
                               <td class="ni-cell ni-rank">
-                                placeholder
+                                别判断人
                               </td>
                               <td class="ni-cell ni-lr-score">
                                 <div class="ni-lr-score-text">
@@ -592,12 +605,20 @@
 
                   </div>
 
-                  <div class="xgboost_result is-hidden">
-                    <img class="xgboost_image" src="data:image/png;base64,{{shap_plots[a]}}">
-                  </div>
 
                 </div>
               </div>
+            </div>
+            <div class="logistic_reg is-hidden">
+
+              {% if show_below_plot[a] == 1: %}
+                <iframe srcdoc="{{ shap_plots[a] }}" style={"width": "2000px"; "height": "200px"; border: none;} ></iframe>
+                <br><br>
+                {% autoescape off %}
+                  {{ below_shap_html[a] }}
+                {% endautoescape %}
+              {% endif %}
+              <!-- <img class="xgboost_image" src="data:image/png;base64,{{shap_plots[a]}}"> -->
             </div>
             {% endfor %}
   </body>
@@ -605,5 +626,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/CSSPlugin.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenLite.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineLite.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="{{url_for('static', filename='js/input_handler.js')}}"></script>
+
 </html>
