@@ -6,6 +6,8 @@
 
 [See the final product](http://liamisaacs.com/league)
 
+[Read the blog post](https://yeqiuu.medium.com/the-heartfelt-story-of-me-building-a-league-of-legends-win-interpreter-for-hard-stuck-silver-ii-36684c99facc)
+
 (*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
 
 Project was presented, [slides!](final_presentation.pdf)
