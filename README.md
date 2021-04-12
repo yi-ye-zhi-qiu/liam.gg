@@ -34,7 +34,7 @@ Requirements to run locally:
 
 The data:
 
-- Here's a link to [my Kaggle dataset](https://www.kaggle.com/liamisaacs/leagueoflegends-ranked-na-soloq-data-patch-114)
+- Please message me if you're interested in the source data used.
 
 ----
 
