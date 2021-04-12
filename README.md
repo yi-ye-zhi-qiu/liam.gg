@@ -62,4 +62,5 @@ The process:
 
 The WebApp itself:
 
+- Please see [here](https://yeqiuu.medium.com/tutorial-on-displaying-shap-force-plots-in-python-html-4883aeb0ee7c) for a tutorial on the data visualization used (SHAP) 
 - The FlaskApp is running on Ubuntu on an AWS AmazonLightsail server (more on that in my [personalwebsite repository](https://github.com/yi-ye-zhi-qiu/personalwebsite)), but you can easily reproduce on local host by running `Flask run app.py` or, if you use Atom IDE, `Command+i` in the `app.py` file
