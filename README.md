@@ -8,8 +8,6 @@
 
 [Read the blog post](https://yeqiuu.medium.com/the-heartfelt-story-of-me-building-a-league-of-legends-win-interpreter-for-hard-stuck-silver-ii-36684c99facc)
 
-(*Note*: as I apply for a production key, it's likely that since my API requests are so limited you might have to retry over and over again.)
-
 Project was presented, [slides!](final_presentation.pdf)
 
 **Summary:**  FlaskApp where users can search by League of Legends username and view baseline match data (like op.gg) that's fetched from the RiotWatcher League of Legends API; in addition, users can click "boost stats" which will reveal a SHAP force plot of features that interpret a logistic regression model trained on data that's local to that user (based off rank, champion, role).
