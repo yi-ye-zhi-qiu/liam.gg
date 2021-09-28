@@ -1,3 +1,5 @@
+import re
+
 class PageParser:
 
     def parse_page(self, container):
@@ -49,6 +51,23 @@ class PageParser:
         spells = split_dict(spells)
         runes = split_dict(runes)
         #items = split_dict(items)
+
+        def get_items(items_div):
+            """Get items as list"""
+
+            items = []
+
+            for div in items_div:
+                
+                try:
+                    k = div.find('img')['alt']
+                    items.append(k)
+                except:
+                    pass
+
+            return items
+
+        items = get_items(items)
 
         d = {'game_id': {},
              'result': {},
