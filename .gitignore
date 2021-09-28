@@ -1,7 +1,4 @@
 .ipynb_checkpoints
-*.csv
-*.env
-*.DS_Store
-*.pickle
-*.json
-data/
+*/.ipynb_checkpoints/*
+**/__pycache__
+*/data/
