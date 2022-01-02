@@ -1,0 +1,2 @@
+CONCURRENT_REQUESTS=32
+SPIDER_MODULES=['scrape.spiders']
